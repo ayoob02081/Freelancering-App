@@ -11,13 +11,15 @@ function SendOTPForm({ onSubmit, phoneNumber, onChange, isSendingOtp }) {
           value={phoneNumber}
           onChange={onChange}
         />
-        {isSendingOtp ? (
-          <Lodaing />
-        ) : (
-          <button type="submit" className="btn btn--primary w-full">
-            ارسال کد تایید
-          </button>
-        )}
+        <div>
+          {isSendingOtp ? (
+            <Lodaing />
+          ) : (
+            <button type="submit" className="btn btn--primary w-full">
+              ارسال کد تایید
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

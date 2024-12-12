@@ -10,7 +10,6 @@ const BASE_TIME = 90;
 function AuthContainer() {
   const {
     isPending,
-    error,
     data: otpResponse,
     mutateAsync,
   } = useMutation({
@@ -28,7 +27,7 @@ function AuthContainer() {
       toast.error(error?.response?.data?.message);
     }
   };
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("09182221111");
   const [time, setTime] = useState(BASE_TIME);
 
