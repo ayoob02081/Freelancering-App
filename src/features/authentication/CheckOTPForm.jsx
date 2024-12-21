@@ -6,16 +6,18 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import { CiEdit } from "react-icons/ci";
-import Lodaing from "../../UI/Lodaing";
+import Loading from "../../UI/Loading";
 
 function CheckOTPForm({
   phoneNumber,
   onBack,
-  onResendOtp,
+  onReSendOtp,
   time,
   setTime,
   otpResponse,
 }) {
+  console.log(phoneNumber);
+  
   const [otp, setOtp] = useState("");
 
   const navigate = useNavigate();
@@ -33,12 +35,11 @@ function CheckOTPForm({
       if (!user.isActive) return navigate("/complete-profile");
       if (user.status !== 2) {
         navigate("/");
-        toast.error("پروفایل شما در انتةار تایید است");
+        toast.error("پروفایل شما در انتظار تایید است");
         return;
       }
       if (user.role === "OWNER") return navigate("/owner");
       if (user.role === "FREELANCER") return navigate("/freelancer");
-      console.log(message, user);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -73,7 +74,7 @@ function CheckOTPForm({
         {time > 0 ? (
           <p>{time} ثانیه تا ارسال مجدد کد </p>
         ) : (
-          <button onClick={onResendOtp}>ارسال مجدد کد</button>
+          <button onClick={onReSendOtp}>ارسال مجدد کد</button>
         )}
       </div>
       <form className="space-y-10" onSubmit={checkOtpHandler}>
@@ -96,7 +97,7 @@ function CheckOTPForm({
         />
         <div>
           {isPending ? (
-            <Lodaing />
+            <Loading />
           ) : (
             <button type="submit" className="btn btn--primary w-full">
               تایید

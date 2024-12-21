@@ -1,26 +1,31 @@
-import { useState } from "react";
-import TextField from "../../UI/textField";
-import RadioInput from "../../UI/RadioInput";
+import TextField from "../../UI/TextField";
 import { useMutation } from "@tanstack/react-query";
 import { completeProfile } from "../../services/authService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Lodaing from "../../UI/Lodaing";
+import Loading from "../../UI/Loading";
+import { useForm } from "react-hook-form";
+import RadioInputGroup from "../../UI/RadioInputGroup";
 
 function ComoleteProfileForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [role, setRole] = useState("");
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: completeProfile,
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (data) => {
     try {
-      const { message, user } = await mutateAsync({ name, email, role });
+      const { message, user } = await mutateAsync(data);
       toast.success(message);
 
       if (user.useState !== 2) {
@@ -36,46 +41,56 @@ function ComoleteProfileForm() {
   };
 
   return (
-    <div className="w-full sm:max-w-sm">
-      <form className="space-y-8" onSubmit={handleSubmit}>
-        <TextField
-          label="نام و نام خانوادگی"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          label="ایمیل"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <div className="flex items-center justify-center gap-8">
-          <RadioInput
-            name={"role"}
-            id={"OWNER"}
-            label={"کارفرما"}
-            onChange={(e) => setRole(e.target.value)}
-            checked={role === "OWNER"}
+    <div className="flex flex-col items-center gap-6 pt-10">
+      <h1 className="font-bold text-3xl text-secondary-700">تکمیل اطلاعات</h1>
+      <div className="w-full sm:max-w-sm">
+        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="نام و نام خانوادگی"
+            name="name"
+            register={register}
+            validationSchema={{
+              required: "نام و نام خانوادگی ضروری است",
+            }}
+            errors={errors}
           />
-          <RadioInput
-            name={"role"}
-            id={"FREELANCER"}
-            label={"فریلنسر"}
-            onChange={(e) => setRole(e.target.value)}
-            checked={role === "FREELANCER"}
+          <TextField
+            label="ایمیل"
+            name="email"
+            register={register}
+            validationSchema={{
+              required: "نام و نام خانوادگی ضروری است",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "ایمیل نامعبر است",
+              },
+            }}
+            errors={errors}
           />
-        </div>
-        <div>
-          {isPending ? (
-            <Lodaing />
-          ) : (
-            <button type="submit" className="btn btn--primary w-full">
-              تایید
-            </button>
-          )}
-        </div>
-      </form>
+          <RadioInputGroup
+            register={register}
+            watch={watch}
+            errors={errors}
+            configs={{
+              name: "role",
+              validationSchema: { required: "انتخاب نقش ضروری است" },
+              options: [
+                { value: "OWNER", label: "کارفرما" },
+                { value: "FREELANCER", label: "فریلنسر" },
+              ],
+            }}
+          />
+          <div>
+            {isPending ? (
+              <Loading />
+            ) : (
+              <button type="submit" className="btn btn--primary w-full">
+                تایید
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
