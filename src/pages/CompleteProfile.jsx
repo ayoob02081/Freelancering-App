@@ -2,7 +2,7 @@ import ComoleteProfileForm from "../features/authentication/ComoleteProfileForm"
 
 function CompleteProfile() {
   return (
-    <div className="flex justify-center pt-10">
+    <div className="container xl:max-w-screen-xl">
       <ComoleteProfileForm />
     </div>
   );

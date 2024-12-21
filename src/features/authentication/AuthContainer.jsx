@@ -4,6 +4,7 @@ import CheckOTPForm from "./CheckOTPForm";
 import { getOtp } from "../../services/authService";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const BASE_TIME = 90;
 
@@ -16,19 +17,26 @@ function AuthContainer() {
     mutationFn: getOtp,
   });
 
-  const sendOtpHandler = async (e) => {
-    e.preventDefault();
+  const sendOtpHandler = async (data) => {
     try {
-      const data = await mutateAsync({ phoneNumber });
-      toast.success(data.message);
+      console.log(data);
+      const { message } = await mutateAsync(data);
       setStep(2);
+      toast.success(message);
       setTime(BASE_TIME);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
   };
   const [step, setStep] = useState(1);
-  const [phoneNumber, setPhoneNumber] = useState("09182221111");
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    getValues,
+  } = useForm();
+
   const [time, setTime] = useState(BASE_TIME);
 
   const renderStep = () => {
@@ -37,9 +45,9 @@ function AuthContainer() {
         return (
           <SendOTPForm
             isSendingOtp={isPending}
-            onSubmit={sendOtpHandler}
-            phoneNumber={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onSubmit={handleSubmit(sendOtpHandler)}
+            errors={errors}
+            register={register}
           />
         );
       case 2:
@@ -47,10 +55,10 @@ function AuthContainer() {
           <CheckOTPForm
             time={time}
             setTime={setTime}
-            otpResponse={otpResponse}
-            phoneNumber={phoneNumber}
+            onReSendOtp={sendOtpHandler}
+            phoneNumber={getValues("phoneNumber")}
             onBack={() => setStep(1)}
-            onResendOtp={sendOtpHandler}
+            otpResponse={otpResponse}
           />
         );
 
