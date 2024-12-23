@@ -21,3 +21,7 @@ export function getUser() {
   //data ==> object ===> profile info
   return http.get("/user/profile").then(({ data }) => data.data);
 }
+
+export function logOutUser() {
+  return http.post("/user/logout").then(({ data }) => data.data);
+}
