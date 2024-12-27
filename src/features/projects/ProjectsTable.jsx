@@ -1,3 +1,5 @@
+import Empty from "../../UI/Empty";
+import Loading from "../../UI/Loading";
 import Table from "../../UI/Table";
 import ProjectRow from "./ProjectRow";
 import useOwnerProjects from "./useOwnerProjects";
@@ -5,7 +7,10 @@ import useOwnerProjects from "./useOwnerProjects";
 function ProjectsTable() {
   const { isLoading, projects } = useOwnerProjects();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
+
+  if (!projects.length) return <Empty resourseName="پروژه" />;
+
 
   return (
     <Table>

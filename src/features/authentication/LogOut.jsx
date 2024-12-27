@@ -9,7 +9,7 @@ function LogOut() {
     <Loading />
   ) : (
     <button onClick={logOut}>
-      <HiLogout className="w-5 h-5 text-secondary-600 hover:text-error" />
+      <HiLogout className="w-5 h-5 text-secondary-600 hover:text-error duration-300" />
     </button>
   );
 }

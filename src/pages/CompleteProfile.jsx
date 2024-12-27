@@ -2,7 +2,7 @@ import ComoleteProfileForm from "../features/authentication/ComoleteProfileForm"
 
 function CompleteProfile() {
   return (
-    <div className="container xl:max-w-screen-xl">
+    <div className="h-screen bg-secondary-100">
       <ComoleteProfileForm />
     </div>
   );

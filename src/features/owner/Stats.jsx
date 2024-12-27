@@ -3,11 +3,11 @@ import {
   HiCurrencyDollar,
   HiOutlineViewGrid,
 } from "react-icons/hi";
-import Stat from "./Stat";
+import Stat from "../../UI/Stat";
 
 function Stats({ projects }) {
   const numOfProjects = projects.length;
-  const numOfAcceptedProjects = projects.map((p) => p.status === 2);
+  const numOfAcceptedProjects = projects.filter((p) => p.status === 2);
   const numOfProposals = projects.reduce(
     (acc, curr) => curr.proposals.length + acc,
     0
@@ -25,7 +25,7 @@ function Stats({ projects }) {
         color="green"
         title="پروژه‌های واگذار شده"
         icon={<HiCurrencyDollar className="w-20 h-20" />}
-        value={numOfAcceptedProjects}
+        value={numOfAcceptedProjects.length}
       />
       <Stat
         color="blue"

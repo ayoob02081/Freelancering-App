@@ -7,13 +7,17 @@ function FreelancerLayout() {
   return (
     <AppLayout>
       <Sidebar>
-        <CustomeNavLink to="/owner/dashboard">
+        <CustomeNavLink to="dashboard">
           <HiHome />
-          <span>خانه</span>
+          <span>داشبورد</span>
         </CustomeNavLink>
-        <CustomeNavLink to="/owner/projects">
+        <CustomeNavLink to="projects">
           <HiCollection />
           <span>پروژه‌ها</span>
+        </CustomeNavLink>
+        <CustomeNavLink to="proposals">
+          <HiCollection />
+          <span>درخواست‌ها</span>
         </CustomeNavLink>
       </Sidebar>
     </AppLayout>

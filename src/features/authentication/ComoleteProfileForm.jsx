@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../UI/Loading";
 import { useForm } from "react-hook-form";
 import RadioInputGroup from "../../UI/RadioInputGroup";
+import useUser from "./useUser";
+import { useEffect } from "react";
 
 function ComoleteProfileForm() {
   const {
@@ -19,6 +21,12 @@ function ComoleteProfileForm() {
   // const [email, setEmail] = useState("");
   // const [role, setRole] = useState("");
   const navigate = useNavigate();
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user) navigate("/", { replace: true });
+  }, [user, navigate]);
+
   const { mutateAsync, isPending } = useMutation({
     mutationFn: completeProfile,
   });

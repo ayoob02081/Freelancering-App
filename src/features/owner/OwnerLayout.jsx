@@ -7,11 +7,11 @@ function OwnerLayout() {
   return (
     <AppLayout>
       <Sidebar>
-        <CustomeNavLink to="/owner/dashboard">
+        <CustomeNavLink to="dashboard">
           <HiHome />
           <span>داشبورد</span>
         </CustomeNavLink>
-        <CustomeNavLink to="/owner/projects">
+        <CustomeNavLink to="projects">
           <HiCollection />
           <span>پروژه‌ها</span>
         </CustomeNavLink>

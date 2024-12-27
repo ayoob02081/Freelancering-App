@@ -26,3 +26,11 @@ export function toggleProjectStatusApi({ id, data }) {
 export function getOwnerProjectApi(id) {
   return http.get(`/project/${id}`).then(({ data }) => data.data);
 }
+
+export function getProjectsApi(qs) {
+  return http.get(`/project/list${qs}`).then(({ data }) => data.data);
+}
+
+export function createProposalApi(data) {
+  return http.post("/proposal/add", data).then(({ data }) => data.data);
+}
